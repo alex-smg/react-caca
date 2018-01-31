@@ -7,11 +7,17 @@ class App extends React.Component {
         super();
         this.state = {
             seriesList: [],
-            seriesEpisodesList: []
+            seriesEpisodesList: [],
+            value: ''
         };
+        this.handleChange = this.handleChange.bind(this);
     }
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    };
 
     componentDidMount() {
+
 
         fetch('seriesList.json',{})
             .then(response => response.json())
@@ -29,18 +35,44 @@ class App extends React.Component {
     }
 
     render() {
+        console.log(this.state.seriesList.id)
         return (
             <div>
+                <input type="text"  value={this.state.value} onChange={this.handleChange}/>
+
                 <ul>
-                    {this.state.seriesList.length ?
-                        this.state.seriesList.map(item => <li key={item.id}>{item.seriesName}</li>)
-                        : <li>Loading...</li>
+                    {   this.state.value !== "" ? this.state.seriesList.filter(a => a.seriesName.toLowerCase().indexOf(this.state.value)>-1)
+                        .map(item => <li key={item.id}>{item.seriesName}</li>)
+                        : <li>FUCK LES MOTIONS !</li>
                     }
                 </ul>
+                <ul>
+                    {this.state.seriesEpisodesList.filter(b => b.this.state.seriesEpisodesList.serie_id == this.state.seriesList.id)
+                            .map(item => <li key={item.id}>{item.episodeName}</li>)
+
+
+                    }
+                </ul>
+
             </div>
+
+
         )
+
+
     }
+
+
+
+
+
+
+
+
+
 }
+
+
 
 
 export default App;
